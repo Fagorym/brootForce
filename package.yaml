@@ -24,6 +24,9 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+      - parallel
+      - deepseq
 
 executables:
   brootForce-exe:

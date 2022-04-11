@@ -27,6 +27,7 @@ library
   exposed-modules:
       Input
       Lib
+      ParListChunk
       Rounds
   other-modules:
       Paths_brootForce
@@ -34,6 +35,8 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , deepseq
+    , parallel
   default-language: Haskell2010
 
 executable brootForce-exe
