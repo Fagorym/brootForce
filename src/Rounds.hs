@@ -1,25 +1,26 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Rounds(mainOperations)
 where
-import Input
 import Data.Bits
-import Data.Word
+      ( Bits((.|.), (.&.), complement, xor, shiftL, shiftR) )
+import Data.Word (Word32)
 import Data.List (cycle)
 
 
 funcF:: Word32 -> Word32 -> Word32 -> Word32
-funcF x y z = (x .&. y) .|.  ((complement x) .&. z)
+funcF x y z = (x .&. y) .|.  (complement x .&. z)
 
 funcG:: Word32 -> Word32 -> Word32 -> Word32
-funcG x y z = (x .&. z) .|.  ((complement x) .&. y)
+funcG x y z = (x .&. z) .|.  (complement x .&. y)
 
 funcH:: Word32 -> Word32 -> Word32 -> Word32
 funcH x y z = (x `xor` y) `xor` z
 
 funcI:: Word32 -> Word32 -> Word32 -> Word32
-funcI x y z = y `xor` (x .|. (complement z))
+funcI x y z = y `xor` (x .|. complement z)
 
 defineConstants::  [Word32]
-defineConstants = foldl (\acc x -> acc ++ [round $ (2^^32 * abs(sin x) - 0.5)] ) [] [1..64]
+defineConstants = foldl (\acc x -> acc ++ [floor (2^^32 * abs(sin x))] ) [] [1..64]
 
 circleShiftLeft:: Word32 -> Int -> Word32
 circleShiftLeft x k = (x `shiftL` k) .|. (x `shiftR` (32 - k))
@@ -31,14 +32,14 @@ mainOperations i a b c d ms | i <= 15 = mainOperations (i+1) d newB1 b c ms
                             | i <= 31 = mainOperations (i+1) d newB2 b c ms
                             | i <= 47 = mainOperations (i+1) d newB3 b c ms
                             | i <= 63 = mainOperations (i+1) d newB4 b c ms
-                                        where f1 = funcF b c d 
+                                        where f1 = funcF b c d
                                               f2 = funcG d c b
                                               f3 = funcH b c d
                                               f4 = funcI b c d
                                               g1 = i
                                               g2 = (5*i + 1) `mod` 16
                                               g3 = (3*i + 5) `mod` 16
-                                              g4 = (7*i) `mod` 16   
+                                              g4 = (7*i) `mod` 16
                                               newB1 = b + ((f1 + a + k + m1) `circleShiftLeft` (s!!i))
                                               newB2 = b + ((f2 + a + k + m2) `circleShiftLeft` (s!!i))
                                               newB3 = b + ((f3 + a + k + m3) `circleShiftLeft` (s!!i))
@@ -57,7 +58,7 @@ mainOperations i a b c d ms | i <= 15 = mainOperations (i+1) d newB1 b c ms
 mainOperations 64 a b c d ms = [a + a0,b + b0,c + c0,d + d0]
                                 where a0 = 1732584193
                                       b0 = 4023233417
-                                      c0 = 2562383102   
-                                      d0 = 271733878     
+                                      c0 = 2562383102
+                                      d0 = 271733878
 
 

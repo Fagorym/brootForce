@@ -25,9 +25,12 @@ source-repository head
 
 library
   exposed-modules:
+      ForkIOStrat
+      GeneralFunctions
       Input
       Lib
       ParListChunk
+      ParMapStrategy
       Rounds
   other-modules:
       Paths_brootForce
