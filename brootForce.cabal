@@ -29,6 +29,7 @@ library
       GeneralFunctions
       Input
       Lib
+      Md5
       ParListChunk
       ParMapStrategy
       Rounds
