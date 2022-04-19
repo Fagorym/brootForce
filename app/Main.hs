@@ -16,8 +16,8 @@ main = do
     --let answer = chunkHash 1 5 hash dictionary
     --putStrLn answer
     haveAnswer <- newMVar []
-    -- setNumCapabilities 2
+    setNumCapabilities 6
     numCup <- getNumCapabilities 
-    forkIOHash 1 3 haveAnswer numCup hash dictionary
+    forkIOHash 1 5 haveAnswer numCup hash dictionary
     return ()
 
